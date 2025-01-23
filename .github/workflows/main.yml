@@ -27,5 +27,5 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        git remote add heroku https://git.heroku.com/poker-tele-bot.git
+        git remote add heroku https://${HEROKU_API_KEY}@git.heroku.com/poker-tele-bot.git
         git push -f heroku main
