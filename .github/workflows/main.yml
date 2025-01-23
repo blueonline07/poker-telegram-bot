@@ -1,37 +1,31 @@
-name: Python CI/CD to Heroku
+name: Deploy to Heroku
 
 on:
   push:
     branches:
-      - master  # Trigger on push to main branch
-  pull_request:
-    branches:
-      - master  # Trigger on pull request to main branch
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.12'
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      - name: Log in to Heroku
-        uses: akshnz/heroku-login-action@v1
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-
-      # - name: Deploy to Heroku
-      #   run: |
-      #     git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_APP_NAME }}.git
-      #     git push heroku main  # Deploy to Heroku main branch
+    # - name: Deploy to Heroku
+    #   env:
+    #     HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+    #   run: |
+    #     git remote add heroku https://git.heroku.com/<your-app-name>.git
+    #     git push -f heroku main
