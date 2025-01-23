@@ -12,6 +12,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch the entire history to avoid shallow clone issues
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -27,11 +29,6 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
-        # Ensure git remote is clean
         git remote remove heroku || true
-        
-        # Add Heroku remote
         git remote add heroku https://heroku:${{ secrets.HEROKU_API_KEY }}@git.heroku.com/poker-tele-bot.git
-        
-        # Force push to Heroku
         git push -f heroku main
