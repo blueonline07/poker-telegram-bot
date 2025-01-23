@@ -64,4 +64,5 @@ def leave_table(message):
     bot.send_message(message.chat.id, "you leaved the table")
 
 
+
 bot.infinity_polling()
