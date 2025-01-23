@@ -63,6 +63,4 @@ def leave_table(message):
     tb.delete_user(message.from_user.id)
     bot.send_message(message.chat.id, "you leaved the table")
 
-
-
 bot.infinity_polling()
