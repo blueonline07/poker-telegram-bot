@@ -55,3 +55,9 @@ class UserTable:
                     'balance': row[3]
                 })
             return ll
+
+    def delete_user(self, id):
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('DELETE FROM users WHERE id = ?', (id,))
+            conn.commit()

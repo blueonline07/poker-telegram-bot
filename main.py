@@ -58,4 +58,10 @@ def show_table(message):
     for user in users:
         bot.send_message(message.chat.id, f"{user['first_name']} {user['last_name']}: {user['balance']}")
 
+@bot.message_handler(commands=['leave'])
+def leave_table(message):
+    tb.delete_user(message.from_user.id)
+    bot.send_message(message.chat.id, "you leaved the table")
+
+
 bot.infinity_polling()
