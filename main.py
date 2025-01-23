@@ -40,7 +40,7 @@ def handle_transaction(message):
         users = tb.get_all_users()
         user_ids = [user["id"] for user in users]
         for user_id in user_ids:
-            bot.send_message(user_id, f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount}. Their balance is now {tb.get_user(message.from_user.id)["balance"]}.")
+            bot.send_message(user_id, f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount}. Their balance is now {tb.get_user(message.from_user.id)['balance']}.")
 
     except Exception as e:
         print(e)
