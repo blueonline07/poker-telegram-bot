@@ -21,7 +21,7 @@ def send_help(message):
 def handle_join(message):
     try:
         tb.add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
-        bot.send_message(message.chat.id, "Congratulations, {}! You have joined the table".format(message.from_user.username))
+        bot.send_message(message.chat.id, f"Congratulations! You have joined the table, your user id is {message.from_user.id}")
     except Exception as e:
         print(e)
         bot.send_message(message.chat.id, "Something went wrong. Please try again later")
