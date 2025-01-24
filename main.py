@@ -3,7 +3,7 @@ from user import UserTable
 
 import telebot
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
+BOT_TOKEN = os.environ.get('BOT_TOKEN') or '7328513195:AAHH_dMmGYcCmCFp-FdnGDcV_SrVDTIvHZc'
 bot = telebot.TeleBot(BOT_TOKEN)
 tb = UserTable()
 
@@ -23,48 +23,54 @@ def handle_join(message):
         tb.add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
         bot.send_message(message.chat.id, f"Congratulations! You have joined the table, your user id is {message.from_user.id}")
     except Exception as e:
-        print(e)
-        bot.send_message(message.chat.id, "Something went wrong. Please try again later")
+        bot.send_message(message.chat.id, str(e))
 
 @bot.message_handler(commands=['buy','sell'])
 def handle_transaction(message):
     try:
         op = message.text.split(' ')[0][1:]
         amount = int(message.text.split(' ')[1])
-        print(op)
         if op == 'buy':
             tb.update_balance(message.from_user.id, -amount)
         elif op == 'sell':
             tb.update_balance(message.from_user.id, amount)
 
-        users = tb.get_all_users()
-        user_ids = [user["id"] for user in users]
-        for user_id in user_ids:
-            bot.send_message(user_id, f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount}. Their balance is now {tb.get_user(message.from_user.id)['balance']}.")
+        for user in tb.get_all_users():
+            bot.send_message(user['id'], f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount}")
 
     except Exception as e:
-        print(e)
-        bot.send_message(message.chat.id, "Something went wrong. Please try again later")
-
-
-@bot.message_handler(commands=['check'])
-def check_balance(message):
-    bot.send_message(message.chat.id, tb.get_user(message.from_user.id)["balance"])
+        bot.send_message(message.chat.id, str(e))
 
 
 @bot.message_handler(commands=['all'])
 def show_table(message):
-    users = tb.get_all_users()
-    for user in users:
-        bot.send_message(message.chat.id, f"{user['first_name']} {user['last_name']}: {user['balance']}")
+    try:
+        sum_balance = 0
+        users = tb.get_all_users()
+        for user in users:
+            sum_balance += user['balance']
+            bot.send_message(message.chat.id, f"{user['first_name']} {user['last_name']}: {user['balance']}")
+
+        bot.send_message(message.chat.id, f"Sum balance is {sum_balance}")
+    except Exception as e:
+        bot.send_message(message.chat.id, str(e))
 
 @bot.message_handler(commands=['leave'])
 def leave_table(message):
-    tb.delete_user(message.from_user.id)
-    bot.send_message(message.chat.id, "you leaved the table")
+    try:
+        tb.delete_user(message.from_user.id)
+        bot.send_message(message.chat.id, "you leaved the table")
+    except Exception as e:
+        bot.send_message(message.chat.id, str(e))
 
-@bot.message_handler(commands=['test'])
-def test(message):
-    bot.send_message(message.chat.id, "HI")
+@bot.message_handler(func=lambda message: True)
+def execute(message):
+    try:
+        if message.text == 'delete all users':
+            tb.delete_all_users()
+    except Exception as e:
+        bot.send_message(message.chat.id, str(e))
+    bot.send_message(message.chat.id, "All users have been deleted")
+
 
 bot.infinity_polling()

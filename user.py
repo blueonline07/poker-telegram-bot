@@ -61,3 +61,9 @@ class UserTable:
             cursor = conn.cursor()
             cursor.execute('DELETE FROM users WHERE id = ?', (id,))
             conn.commit()
+
+    def delete_all_users(self):
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute('DELETE FROM users')
+            conn.commit()
