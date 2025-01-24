@@ -3,7 +3,7 @@ from user import UserTable
 
 import telebot
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN') or '7328513195:AAHH_dMmGYcCmCFp-FdnGDcV_SrVDTIvHZc'
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 bot = telebot.TeleBot(BOT_TOKEN)
 tb = UserTable()
 
