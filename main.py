@@ -3,7 +3,7 @@ from user import UserTable
 
 import telebot
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN')
+BOT_TOKEN = os.environ.get('BOT_TOKEN') or '7328513195:AAHH_dMmGYcCmCFp-FdnGDcV_SrVDTIvHZc'
 bot = telebot.TeleBot(BOT_TOKEN)
 tb = UserTable()
 
@@ -14,8 +14,11 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['help'])
 def send_help(message):
-    pass
-
+    bot.send_message(message.chat.id, ("/join: join the table\n"
+                                       "/leave: leave the table\n"
+                                       "/buy <amount>: buy <amount> chips\n"
+                                       "/sell <amount>: sell <amount> chips\n"
+                                       "/all: show table status\n"))
 
 @bot.message_handler(commands=['join'])
 def handle_join(message):
