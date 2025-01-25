@@ -3,7 +3,7 @@ from user import UserTable
 
 import telebot
 
-BOT_TOKEN = os.environ.get('BOT_TOKEN') or '7328513195:AAHH_dMmGYcCmCFp-FdnGDcV_SrVDTIvHZc'
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 bot = telebot.TeleBot(BOT_TOKEN)
 tb = UserTable()
 
@@ -71,9 +71,10 @@ def execute(message):
     try:
         if message.text == 'delete all users':
             tb.delete_all_users()
+            bot.send_message(message.chat.id, "All users have been deleted")
     except Exception as e:
         bot.send_message(message.chat.id, str(e))
-    bot.send_message(message.chat.id, "All users have been deleted")
+    
 
 
 bot.infinity_polling()
