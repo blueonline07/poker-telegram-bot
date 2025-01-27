@@ -11,7 +11,6 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN')
 TRANSACTION_BOT_TOKEN = os.environ.get('TRANSACTION_BOT_TOKEN')
 
 bot = telebot.TeleBot(BOT_TOKEN)
-trans_bot = telebot.TeleBot(TRANSACTION_BOT_TOKEN)
 url = urlparse(os.environ.get('DATABASE_URL'))
 db_params = {
     'dbname': url.path[1:],  # Remove leading '/'
@@ -62,12 +61,12 @@ def handle_transaction(message):
             elif f is None:
                 tb.update_balance(message.from_user.id, -amount)
                 for user in tb.get_all_users():
-                    trans_bot.send_message(user['id'],
+                    bot.send_message(user['id'],
                                            f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount} at {datetime.datetime.now()}")
         elif op == 'sell':
             tb.update_balance(message.from_user.id, amount)
             for user in tb.get_all_users():
-                trans_bot.send_message(user['id'],
+                bot.send_message(user['id'],
                                        f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount} at {datetime.datetime.now()}")
 
 
@@ -137,7 +136,7 @@ def handle_ok(call):
         users = tb.get_all_users()
 
         for user in users:
-            trans_bot.send_message(user['id'],f"{buyer['first_name']} {buyer['last_name']} buys {amount} from {seller['first_name']} {seller['last_name']} at {datetime.datetime.now()}")
+            bot.send_message(user['id'],f"{buyer['first_name']} {buyer['last_name']} buys {amount} from {seller['first_name']} {seller['last_name']} at {datetime.datetime.now()}")
 
     elif ok == 'no':
         bot.send_message(source, 'haha sorry')
