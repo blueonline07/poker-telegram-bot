@@ -8,6 +8,7 @@ import telebot
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 TRANSACTION_BOT_TOKEN = os.environ.get('TRANSACTION_BOT_TOKEN')
+
 bot = telebot.TeleBot(BOT_TOKEN)
 trans_bot = telebot.TeleBot(TRANSACTION_BOT_TOKEN)
 db_params = {
@@ -94,7 +95,6 @@ def leave_table(message):
         bot.send_message(message.chat.id, "you leaved the table")
     except Exception as e:
         bot.send_message(message.chat.id, str(e))
-
 
 def buy_from(message, amount):
     users = tb.get_all_users()
