@@ -1,22 +1,3 @@
-# import sqlite3
-#
-# class UserTable:
-#     def __init__(self, db_path='data.db'):
-#         self.db_path = db_path
-#
-#     def get_connection(self):
-#         return sqlite3.connect(self.db_path)
-#
-#     def add_user(self, id, first_name, last_name, balance=0):
-#         with self.get_connection() as conn:
-#             cursor = conn.cursor()
-#             cursor.execute('''
-#             INSERT OR IGNORE INTO users (id, first_name, last_name, balance)
-#             VALUES (?, ?, ?, ?)
-#             ''', (id, first_name, last_name, balance))
-#             conn.commit()
-#
-#     def update_balance(self, id, amount):
 import psycopg2
 
 class UserTable:
