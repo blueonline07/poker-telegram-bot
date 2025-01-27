@@ -33,8 +33,7 @@ def send_help(message):
                                        "/leave: leave the table\n"
                                        "/buy <amount>: buy <amount> [from] chips\n"
                                        "/sell <amount>: sell <amount> chips\n"
-                                       "/all: show table status\n"
-                                       "([] is optional)"))
+                                       "/all: show table status\n"))
 
 @bot.message_handler(commands=['join'])
 def handle_join(message):
