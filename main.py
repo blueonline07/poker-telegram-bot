@@ -1,5 +1,6 @@
 import os
 from gc import callbacks
+from urllib.parse import urlparse
 
 from user import UserTable
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -11,12 +12,13 @@ TRANSACTION_BOT_TOKEN = os.environ.get('TRANSACTION_BOT_TOKEN')
 
 bot = telebot.TeleBot(BOT_TOKEN)
 trans_bot = telebot.TeleBot(TRANSACTION_BOT_TOKEN)
+url = urlparse(os.environ.get('DATABASE_URL'))
 db_params = {
-    'dbname': 'poker',
-    'user': 'ldkhang',
-    'password': '1201',
-    'host': 'localhost',  # or the host of your PostgreSQL server
-    'port': 5432  # or the port your PostgreSQL server is running on
+    'dbname': url.path[1:],  # Remove leading '/'
+    'user': url.username,
+    'password': url.password,
+    'host': url.hostname,
+    'port': url.port or 5432
 }
 
 tb = UserTable(db_params)
