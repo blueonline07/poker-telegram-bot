@@ -1,5 +1,4 @@
 import os
-from gc import callbacks
 from urllib.parse import urlparse
 
 from user import UserTable
@@ -34,12 +33,12 @@ def send_help(message):
                                        "/leave: leave the table\n"
                                        "/buy <amount>: buy <amount> [from] chips\n"
                                        "/sell <amount>: sell <amount> chips\n"
-                                       "/all: show table status\n"))
+                                       "/all: show table status\n"
+                                       "([] is optional)"))
 
 @bot.message_handler(commands=['join'])
 def handle_join(message):
     try:
-        print(message.chat.id)
         tb.add_user(message.from_user.id, message.from_user.first_name, message.from_user.last_name)
         bot.send_message(message.chat.id, f"Congratulations! You have joined the table, your user id is {message.from_user.id}")
     except Exception as e:
