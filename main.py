@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 from user import UserTable
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+import datetime
 import telebot
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
@@ -62,12 +63,12 @@ def handle_transaction(message):
                 tb.update_balance(message.from_user.id, -amount)
                 for user in tb.get_all_users():
                     trans_bot.send_message(user['id'],
-                                           f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount}")
+                                           f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount} at {datetime.datetime.now()}")
         elif op == 'sell':
             tb.update_balance(message.from_user.id, amount)
             for user in tb.get_all_users():
                 trans_bot.send_message(user['id'],
-                                       f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount}")
+                                       f"{message.from_user.first_name} {message.from_user.last_name} {op}s {amount} at {datetime.datetime.now()}")
 
 
 
@@ -136,7 +137,7 @@ def handle_ok(call):
         users = tb.get_all_users()
 
         for user in users:
-            trans_bot.send_message(user['id'],f"{buyer['first_name']} {buyer['last_name']} buys {amount} from {seller['first_name']} {seller['last_name']}")
+            trans_bot.send_message(user['id'],f"{buyer['first_name']} {buyer['last_name']} buys {amount} from {seller['first_name']} {seller['last_name']} at {datetime.datetime.now()}")
 
     elif ok == 'no':
         bot.send_message(source, 'haha sorry')
