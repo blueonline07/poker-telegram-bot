@@ -59,7 +59,7 @@ def handle_transaction(message):
         if op == 'buy':
             if f == 'from':
                 buy_from(message, amount)
-            else:
+            elif f is None:
                 tb.update_balance(message.from_user.id, -amount)
                 for user in tb.get_all_users():
                     trans_bot.send_message(user['id'],
